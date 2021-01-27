@@ -7,8 +7,9 @@ import (
 )
 
 func main() {
+	fmt.Println("Started!")
 	// unsafe()
-	// notIdiomatic()
+	// withLocks()
 	deadlock()
 }
 
@@ -55,14 +56,16 @@ func unsafe() {
 	}
 }
 
-func notIdiomatic() {
+func withLocks() {
 	var lock sync.Mutex
 	var data int
 	go func() {
+		fmt.Println("I'm from the anonym goroutine!")
 		lock.Lock()
 		data++
 		lock.Unlock()
 	}()
+	// Pretend we are working in the main goroutine..
 	time.Sleep(1 * time.Second)
 	lock.Lock()
 	if data == 0 {
